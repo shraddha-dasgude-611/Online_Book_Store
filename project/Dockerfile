@@ -14,4 +14,7 @@ RUN chmod -R 755 /var/www/html
 RUN echo "DirectoryIndex home.php" >> /etc/apache2/apache2.conf
 
 # Expose port 80
+RUN a2enmod rewrite
+
 EXPOSE 80
+RUN echo "<Directory /var/www/html/>\n    AllowOverride All\n</Directory>" >> /etc/apache2/apache2.conf
