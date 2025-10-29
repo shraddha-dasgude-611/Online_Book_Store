@@ -1,20 +1,17 @@
-# Use official PHP image
+# Use the official PHP image
 FROM php:8.2-apache
 
-# Enable mysqli extension
+# Install mysqli extension
 RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
 
-# Copy project files into the Apache web directory
-COPY project/ /var/www/html/
+# Copy all project files to the Apache web directory
+COPY . /var/www/html/
 
 # Set correct permissions
-RUN chmod -R 755 /var/www/html
+RUN chown -R www-data:www-data /var/www/html
 
-# Set index file
+# Tell Apache to treat home.php as the index page
 RUN echo "DirectoryIndex home.php" >> /etc/apache2/apache2.conf
 
 # Expose port 80
-RUN a2enmod rewrite
-
 EXPOSE 80
-RUN echo "<Directory /var/www/html/>\n    AllowOverride All\n</Directory>" >> /etc/apache2/apache2.conf
